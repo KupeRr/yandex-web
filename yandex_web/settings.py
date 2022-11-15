@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'cdek',
     'boxberry',
+    'core',
 ]
 
 MIDDLEWARE = [
