@@ -1,9 +1,9 @@
-from django.urls import re_path
+from django.urls import path
 
 from cdek.views import AllPointsView
 
 app_name = 'cdek'
 
 urlpatterns = [
-    re_path('^cdek_points/<str:city_name>', AllPointsView.as_view()),
+    path('cdek_points/<int:pk>/', AllPointsView.as_view()),
 ]

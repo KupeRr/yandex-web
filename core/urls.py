@@ -1,9 +1,10 @@
-from django.urls import re_path
+from django.urls import path
 
-from core.views import CreateUserRequestView
+from core.views import CreateUserRequestView, GetUserRequestView
 
 app_name = 'core'
 
 urlpatterns = [
-    re_path('^create_user_request/', CreateUserRequestView.as_view()),
+    path('create_user_request/', CreateUserRequestView.as_view()),
+    path('get_user_request/<int:pk>', GetUserRequestView.as_view()),
 ]
