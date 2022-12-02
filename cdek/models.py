@@ -4,7 +4,7 @@ from core.models import Point
 
 class CdekPoint(Point):
     code = models.CharField(max_length=10)
-    active_status = models.BooleanField()
+    active_status = models.CharField(max_length=10)
     region_name = models.CharField(max_length=100)
     city_code = models.CharField(max_length=20)
     city_name = models.CharField(max_length=20)
