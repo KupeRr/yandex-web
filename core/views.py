@@ -25,3 +25,16 @@ class GetUserRequestView(generics.RetrieveAPIView):
         user_request = get_object_or_404(UserRequest, **kwargs)
         return Response(self.get_serializer(user_request).data)
 
+class CleanView(generics.DestroyAPIView):
+    def delete(self, request, *args, **kwargs):
+        from cdek.models import CdekPoint
+        from core.models import Coordinat
+
+        #CdekPoint.objects.all().delete()
+        #Coordinat.objects.all().delete()
+
+        return Response(
+            len(CdekPoint.objects.all()) + \
+            len(Coordinat.objects.all())
+        ) 
+

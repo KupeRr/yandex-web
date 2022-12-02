@@ -4,6 +4,7 @@ import json
 from django.db.transaction import atomic
 
 from cdek.models import CdekPoint
+from core.models import Coordinat
 
 def get_city_code(name, area=None):
     """
@@ -40,6 +41,7 @@ def update_db(city, region):
     for point_data in response['pvz']:
         if point_data['code'] not in pvz_bd_codes:
             with atomic():
+
                 point = CdekPoint(
                     code = point_data['code'],
                     active_status = point_data['status'],
@@ -54,6 +56,13 @@ def update_db(city, region):
                     name = 'CDEK_' + point_data['code']
                 )
                 point.save()
+
+                coordinat = Coordinat(
+                    point = point,
+                    x = point_data['coordX'],
+                    y = point_data['coordY']
+                )
+                coordinat.save()
 
 
 def get_rule_deliver_to_point(code):
