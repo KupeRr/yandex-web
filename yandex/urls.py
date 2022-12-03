@@ -5,5 +5,5 @@ from yandex.views import GetAllPoints
 app_name = 'yandex'
 
 urlpatterns = [
-    path('convert_points/<int:pk>/', GetAllPoints.as_view()),
+    path('convert_points/<int:request_id>/', GetAllPoints.as_view()),
 ]

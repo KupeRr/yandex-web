@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('cdek/', include('cdek.urls')),
     path('core/', include('core.urls')),
+    path('yandex/', include('yandex.urls')),
 ]

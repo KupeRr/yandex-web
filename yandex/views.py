@@ -3,9 +3,10 @@ from rest_framework.response import Response
 
 from cdek.utils import get_rule_deliver_to_point, get_city_code
 from cdek.models import CdekPoint
-from core.models import UserRequest
+from core.models import UserRequest, Coordinat
 
 class GetAllPoints(generics.RetrieveAPIView):
+    queryset = CdekPoint.objects.all()
 
     @staticmethod
     def __get_format_phone(phone_number):
@@ -46,7 +47,9 @@ class GetAllPoints(generics.RetrieveAPIView):
         elif day_of_week == 7:
             return 'SUNDAY'
 
-    def __get_shedule_items(self, source_shedule):
+    def __get_shedule_items(self):#, source_shedule):
+        #TODO
+        source_shedule = [{"day":"1","periods":"08:00/23:00"},{"day":"2","periods":"08:00/23:00"},{"day":"3","periods":"08:00/23:00"},{"day":"4","periods":"08:00/23:00"},{"day":"5","periods":"08:00/23:00"},{"day":"6","periods":"08:00/23:00"},{"day":"7","periods":"08:00/23:00"}]
         """
         The function converts the delivery point schedule from sender format to Yandex format
 
@@ -60,8 +63,8 @@ class GetAllPoints(generics.RetrieveAPIView):
             
         result.append(
             {
-                'startDay'  : self.__get_format_day(1, 'cdek'),
-                'endDay'    : self.__get_format_day(1, 'cdek'),
+                'startDay'  : self.__get_format_day(1),
+                'endDay'    : self.__get_format_day(1),
                 'startTime' : source_shedule[0]['periods'].split('/')[0],
                 'endTime'   : source_shedule[0]['periods'].split('/')[1]
             }
@@ -69,16 +72,16 @@ class GetAllPoints(generics.RetrieveAPIView):
         for item in source_shedule:
             if result[-1]['startTime'] == item['periods'].split('/')[0] and result[-1]['endTime'] == item['periods'].split('/')[1]:
                 continue
-            result[-1]['endDay'] = self.__get_format_day(int(item['day']) - 1, 'cdek')
+            result[-1]['endDay'] = self.__get_format_day(int(item['day']) - 1)
             result.append(
                 {
-                    'startDay'  : self.__get_format_day(int(item['day']), 'cdek'),
-                    'endDay'    : self.__get_format_day(int(item['day']), 'cdek'),
+                    'startDay'  : self.__get_format_day(int(item['day'])),
+                    'endDay'    : self.__get_format_day(int(item['day'])),
                     'startTime' : item['periods'].split('/')[0],
                     'endTime'   : item['periods'].split('/')[1]
                 }
             )
-        result[-1]['endDay'] = self.__get_format_day(7, 'cdek')
+        result[-1]['endDay'] = self.__get_format_day(7)
 
         return result
 
@@ -95,42 +98,43 @@ class GetAllPoints(generics.RetrieveAPIView):
 
         @return returns the list of these points in Yandex format
         """
-        city_region = UserRequest.objects.get(pk=kwargs['pk']).city_region
+        city_region = UserRequest.objects.get(pk=kwargs['request_id']).city_region
         city_code = get_city_code(
             city_region.split('-')[0],
             city_region.split('-')[1]
         )
         
-        deliver_rule = get_rule_deliver_to_point(kwargs['pk'])
+        deliver_rule = get_rule_deliver_to_point(city_code)
 
         if deliver_rule == {}: return []
 
         all_items = []
         data = CdekPoint.objects.filter(
-
+            city_code = city_code
         )
         for item in data:
+            #TODO
             #if f"{item['name']} [{item['code']}]" in already_loaded_points: 
             #    print(f"ПВЗ с именем {item['name']} уже загружена.")
             #    continue
 
-            sheduleItems = self.__get_shedule_items(item['workTimeYList'], 'cdek')
+            sheduleItems = self.__get_shedule_items()#item['workTimeYList'])
 
             if sheduleItems == -1: continue    
 
-            phone_number = self.__get_format_phone(item['phoneDetailList'][0]['number'], 'cdek')
+            phone_number = self.__get_format_phone(item.phone_number)
 
-            descr = item['fullAddress']
+            descr = item.full_address
             if len(descr) > 250: descr = descr[:251]
 
             all_items.append({
-                'name'              : f"{item['name']} [{item['code']}]",
+                'name'              : item.name,
                 'type'              : 'DEPOT',
-                'coords'            : ', '.join([item['coordX'], item['coordY']]),
+                'coords'            : Coordinat.objects.get(point=item.id).yandex_format,
                 'address'           : {
-                    'regionId'          : kwargs['pk'],
-                    'street'            : item['address'].split(',')[0],
-                    'number'            : item['address'].split(',')[1],
+                    'regionId'          : city_code,
+                    'street'            : item.address.split(',')[0],
+                    'number'            : item.address.split(',')[1],
                     'additional'        : descr
                 },
                 'phones'            : [phone_number],
@@ -140,4 +144,4 @@ class GetAllPoints(generics.RetrieveAPIView):
                 'deliveryRules'     : deliver_rule,
             })
 
-            return Response(all_items)
+        return Response(all_items)

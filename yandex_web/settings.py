@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cdek',
     'boxberry',
     'core',
+    'yandex',
 ]
 
 MIDDLEWARE = [
