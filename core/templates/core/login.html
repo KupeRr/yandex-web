@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Войти в аккаунт</h1>
+<p>или <a href="" class="link">зарегистрироваться</a></p>
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <!-- поле для ошибок (скрыто) -->
+        <div class="alert alert-danger" style="display: none;">Тут текст ошибки</div>
+    </div>
+    <div class="mb-3">
+        <label for="login" class="form-label">Логин</label>
+        <input class="form-control" id="login" type="text" name="login" placeholder="Введите логин">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input class="form-control" id="password" type="password" name="password" placeholder="Введите пароль">
+    </div>
+    <button type="submit" class="submit-btn">Войти</button>
+</form>
+{% endblock content %}

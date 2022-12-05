@@ -6,6 +6,10 @@ from django.shortcuts import get_object_or_404
 from core.serializers import UserRequestSerializer
 from core.models import UserRequest
 
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
+
 class CreateUserRequestView(generics.CreateAPIView):
     serializer_class = UserRequestSerializer
 
@@ -38,3 +42,6 @@ class CleanView(generics.DestroyAPIView):
             len(Coordinat.objects.all())
         ) 
 
+@csrf_exempt
+def login(request):
+    return render(request, "core/login.html")
