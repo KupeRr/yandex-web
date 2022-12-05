@@ -45,3 +45,7 @@ class CleanView(generics.DestroyAPIView):
 @csrf_exempt
 def login(request):
     return render(request, "core/login.html")
+
+@csrf_exempt
+def register(request):
+    return render(request, "core/register.html")
