@@ -9,6 +9,12 @@ from core.models import UserRequest
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
+from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
+
 
 class CreateUserRequestView(generics.CreateAPIView):
     serializer_class = UserRequestSerializer
@@ -41,6 +47,20 @@ class CleanView(generics.DestroyAPIView):
             len(CdekPoint.objects.all()) + \
             len(Coordinat.objects.all())
         ) 
+
+class SignUp(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "core/register.html"
+
+class LoginUser(LoginView):
+    form_class = AuthenticationForm
+    template_name = "core/login.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Авторизация")
+        return dict(list(context.items()) + list(c_def.items()))
 
 @csrf_exempt
 def login(request):
