@@ -1,0 +1,28 @@
+<h1>Регистрация</h1>
+<p>или <a href="" class="link">авторизоваться</a></p>
+<form action="" method="POST">
+    <div class="mb-3">
+        <!-- поле для ошибок (скрыто) -->
+        <div class="alert alert-danger" style="display: none;">Тут текст ошибки</div>
+    </div>
+    <div class="mb-3">
+        <label for="login" class="form-label">Логин</label>
+        <input class="form-control" id="login" type="text" name="login" placeholder="Введите логин">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input class="form-control" id="email" type="email" name="email" placeholder="Введите email">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input class="form-control" id="password" type="password" name="password" placeholder="Введите пароль">
+    </div>
+    <div class="mb-3">
+        <label for="password-2" class="form-label">Повтор пароля</label>
+        <input class="form-control" id="password-2" type="password" name="password-2" placeholder="Повторите пароль">
+    </div>
+    <div class="form-footer">
+        <button type="submit" class="submit-btn">Войти</button>
+        <div class="load-block" style="display: none;"><img class="rotating" src="load.png" alt=""></div>
+    </div>
+</form>

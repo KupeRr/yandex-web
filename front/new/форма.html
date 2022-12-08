@@ -1,0 +1,32 @@
+<h1>Форма</h1>
+<form action="" method="POST">
+    <div class="mb-3">
+        <!-- поле для ошибок (скрыто) -->
+        <div class="alert alert-danger" style="display: none;">Тут текст ошибки</div>
+    </div>
+    <div class="mb-3">
+        <label for="aggregator" class="form-label">Агрегатор</label>
+        <select class="form-control" id="aggregator" type="text" name="aggregator" placeholder="Введите агрегатора">
+            <option value="Введите агрегатора" selected disabled>Введите агрегатора</option>
+            <option value="CDEK">CDEK</option>
+            <option value="Boxverry">Boxverry</option>
+            <option value="Все">Все</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="city" class="form-label">Город</label>
+        <select class="form-control" id="city" type="email" name="city" placeholder="Введите город">
+            <option value="Введите город" selected disabled>Введите город</option>
+            <option value="Москва">Москва</option>
+            <option value="Самара">Самара</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <input class="" id="all" type="checkbox" name="all">
+        <label for="all" class="form-label">По всей России</label>
+    </div>
+    <div class="form-footer">
+        <button type="submit" class="submit-btn">Отправить</button>
+        <div class="load-block" style="display: none;"><img class="rotating" src="load.png" alt=""></div>
+    </div>
+</form>
