@@ -69,3 +69,11 @@ def login(request):
 @csrf_exempt
 def register(request):
     return render(request, "core/register.html")
+
+@csrf_exempt
+def cabinet(request):
+    return render(request, "core/cabinet.html")
+
+@csrf_exempt
+def download(request):
+    return render(request, "core/download.html")

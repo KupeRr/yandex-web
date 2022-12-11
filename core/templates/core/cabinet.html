@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Личный кабинет</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <!-- поле для ошибок (скрыто) -->
+        <div class="alert alert-danger" style="display: none;">Тут текст ошибки</div>
+    </div>
+    <div class="mb-3">
+        <label for="login" class="form-label">Логин</label>
+        <input class="form-control" id="login" type="text" name="login" value="test_login_1" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Яндекс.Маркет токен</label>
+        <input class="form-control" id="yandex_token" type="password" name="password" placeholder="Введите токен">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">CDEK токен</label>
+        <input class="form-control" id="cdek_token" type="password" name="password" placeholder="Введите токен">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Boxberry токен</label>
+        <input class="form-control" id="boxberry_token" type="password" name="password" placeholder="Введите токен">
+    </div>
+    <button type="submit" class="submit-btn">Подтвердить</button>
+</form>
+{% endblock content %}
